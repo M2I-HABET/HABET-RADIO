@@ -8,6 +8,17 @@ var Express = require('express');
 var Server = Express();	
 
 // TODO Add a command argument checks here.
+// if (process.argv.length === 2) {
+//     console.log('Type -help to get a list of arguments.');
+    
+//     process.exit(-1);
+// }
+
+// if (process.argv === 3 && process.argv[2] == '-help') {
+//     console.log("-help : Prints all the possible arguments. ");
+//     console.log("-ports : Prints all available serial ports.");
+//     console.log("<serialport> : connects to the supplied serial port.")
+// }
 
 var portName = process.argv[2];
 var myPort = new SerialPort(portName, 9600);
@@ -24,12 +35,20 @@ parser.on('data', readSerialData);
 Server.use('/', Express.static('www'));
 Server.listen(8080);
 
+function getSerialPorts() {
+    SerialPort.list(function (error, ports) {
+        ports.forEach(function (port) {
+            console.log(port.comName);
+        });
+    });
+}
+
 function showPortOpen() {
-    console.log('port open. data rate: ' + myPort.baudRate);
+    console.log('Port open. data rate: ' + myPort.baudRate);
 }
 
 function showPortClose() {
-    console.log('port closed.');
+    console.log('Port closed.');
 }
 
 function showError(error) {
@@ -38,4 +57,10 @@ function showError(error) {
 
 function readSerialData(data) {
     console.log(data);
+}
+
+function sendData(request) {
+    console.log('Got a client request sending data.');
+
+    request.respond(serialData);
 }
