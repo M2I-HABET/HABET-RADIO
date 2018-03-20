@@ -35,6 +35,7 @@ parser.on('data', readSerialData);
 Server.use('/', Express.static('www'));
 Server.listen(8080);
 
+/* Gets a list of available ports on the system. */
 function getSerialPorts() {
     SerialPort.list(function (error, ports) {
         ports.forEach(function (port) {
@@ -43,22 +44,27 @@ function getSerialPorts() {
     });
 }
 
+/* A callback function for when a serial port is open. */
 function showPortOpen() {
-    console.log('Port open. data rate: ' + myPort.baudRate);
+    console.log('Port open. data rate: ' + myPort.baudRate + ".");
 }
 
+/* A callback function for when a serial port is closed. */
 function showPortClose() {
     console.log('Port closed.');
 }
 
+/* A callback function for when a serial port encounters and error. */
 function showError(error) {
-    console.log('Serial port error: ' + error);
+    console.log('Serial port error: ' + error + ".");
 }
 
+/* A callback function for reading data from a serial port.  */
 function readSerialData(data) {
     console.log(data);
 }
 
+/* Not sure what this does yet, I guess I will have to look into it. ;) */
 function sendData(request) {
     console.log('Got a client request sending data.');
 
