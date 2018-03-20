@@ -35,6 +35,8 @@ parser.on('data', readSerialData);
 Server.use('/', Express.static('www'));
 Server.listen(8080);
 
+sendData("Hello, world!");
+
 /* Gets a list of available ports on the system. */
 function getSerialPorts() {
     SerialPort.list(function (error, ports) {
@@ -62,11 +64,4 @@ function showError(error) {
 /* A callback function for reading data from a serial port.  */
 function readSerialData(data) {
     console.log(data);
-}
-
-/* Not sure what this does yet, I guess I will have to look into it. ;) */
-function sendData(request) {
-    console.log('Got a client request sending data.');
-
-    request.respond(serialData);
 }
