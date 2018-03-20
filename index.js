@@ -5,12 +5,37 @@
 var SerialPort = require('serialport');
 var Express = require('express');
 
-var serialPortName = process.argv[2];
-var myPort = new SerialPort(serialPortName, 9600);
+var Server = Express();	
+
+// TODO Add a command argument checks here.
+
+var portName = process.argv[2];
+var myPort = new SerialPort(portName, 9600);
 var Readline = SerialPort.parsers.Readline;
 var parser = new Readline();
 
 myPort.pipe(parser);
 
-myPort.open('open', showPortOpen);
-myPort.open()
+myPort.on('open', showPortOpen);
+myPort.on('close', showPortClose);
+myPort.on('error', showError);
+parser.on('data', readSerialData);
+
+Server.use('/', Express.static('www'));
+Server.listen(8080);
+
+function showPortOpen() {
+    console.log('port open. data rate: ' + myPort.baudRate);
+}
+
+function showPortClose() {
+    console.log('port closed.');
+}
+
+function showError(error) {
+    console.log('Serial port error: ' + error);
+}
+
+function readSerialData(data) {
+    console.log(data);
+}
