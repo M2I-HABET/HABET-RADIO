@@ -1,0 +1,24 @@
+{
+  "name": "habet-radio",
+  "version": "1.0.0",
+  "description": "A simple node.js web server for controlling our radios.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M2I-HABET/HABET-RADIO.git"
+  },
+  "author": "Tyler Jaacks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/M2I-HABET/HABET-RADIO/issues"
+  },
+  "homepage": "https://github.com/M2I-HABET/HABET-RADIO#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "serialport": "^6.1.1",
+    "ws": "^5.1.0"
+  }
+}
