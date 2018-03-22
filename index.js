@@ -10,8 +10,6 @@ var SERVER_PORT = 8081;
 var wss = new WebSocketServer({port: SERVER_PORT});
 var connections = new Array;
 
-getSerialPorts();
-
 // TODO Add a command argument checks here.
 // if (process.argv.length === 2) {
 //     console.log('Type -help to get a list of arguments.');

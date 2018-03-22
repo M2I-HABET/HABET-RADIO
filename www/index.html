@@ -5,25 +5,95 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.8/addons/p5.dom.js"></script>
 
         <script type="text/javascript">
-            var text;
+            var socketStatusText;
+            var socketDataText;
             var socket = new WebSocket("ws://localhost:8081");
 
             function setup() {
+                /* Registers event handlers for socket stuff. */
                 socket.onopen = openSocket;
+                socket.onclose = closeSocket;
                 socket.onmessage = showData;
 
-                text = createDiv("Serial Port Data: ");
-                text.position(10, 10);
+                /* Creates a div with the id of portData. */
+                socketStatusText = createDiv("Serial Port Status: ").id("portStatus");
+                socketDataText = createDiv("Serial Port Data: ").id("portData");
             }
 
+            /* Called whenever a socket is opened. */
             function openSocket() {
-                text.html("Socket open.");
-                socket.send("AM;");
+                socketStatusText.html("Serial Port Status: Socket open.");
+                console.log("Socket opened.");
             }
 
+            /* Called whenever a socket is closed. */
+            function closeSocket() {
+                socketStatusText.html("Serial Port: Socket closed.");
+                console.log("Socket closed.");
+            }
+
+            /* Called whenever the socket recieves a message. */
             function showData(result) {
-                console.log("Serial Port Data: " + result.data);
+                socketDataText.html("Serial Port Data: " + result.data);
+                console.log("Socket recieved data: " + result.data);
+            }
+
+            function turnAutoOn() {
+                socket.send("AM1;");
+                console.log("Turning On Auto Mode.");
+            }
+
+            function turnAutoOff() {
+                socket.send("AM0;");
+                console.log("Turning Off Auto Mode.");
+            }
+
+            function getAutoStatus() {
+                socket.send("AM;");
+                console.log("Getting Auto Mode State.");
             }
         </script>
+
+        <style>
+            #title {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 50px;
+                padding-top: 25px;
+                padding-bottom: 25px;
+                color: red;
+                text-align: center;
+            }
+
+            #portStatus {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 30px;
+                color: red;
+                text-align: center;
+            }
+
+            #portData {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 30px;
+                color: red;
+                text-align: center;
+            }
+
+            button {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+                text-align: center;
+                align-content: center;
+                width: 40%;
+                margin-left: 30%;
+                margin-right: 30%
+            }
+        </style>
     </head>
+    <body>
+        <div id="title">HABET-RADIO</div>
+
+        <button onclick="turnAutoOn()">Turn Auto On</button>
+        <button onclick="turnAutoOff()">Turn Auto Off</button>
+        <button onclick="getAutoStatus()">Get Auto Status</button>
+    </body>
 </html>
