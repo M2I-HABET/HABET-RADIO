@@ -18,13 +18,11 @@
 
             function openSocket() {
                 text.html("Socket open.");
-                socket.send("Hello, world!");
+                socket.send("AM;");
             }
 
             function showData(result) {
-                text.html("Serial Port Data: " + result.data);
-                xPos = int(result.data);
-                text.position(xPos, 10);
+                console.log("Serial Port Data: " + result.data);
             }
         </script>
     </head>
